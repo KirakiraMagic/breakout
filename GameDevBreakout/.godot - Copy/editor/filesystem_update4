@@ -1,0 +1,17 @@
+res://main.tscn
+res://fireball.gdshader
+res://src/lives.gd
+res://qishader.gdshader
+res://brick.tscn
+res://ball.tscn
+res://src/global.gd
+res://src/ball.gd
+res://main.gd
+res://ripple.gdshader
+res://ripple.gd
+res://icy.gdshader
+res://background.gdshader
+res://invis_brick.tscn
+res://hyper_brick.tscn
+res://hyper_brick.gdshader
+res://black_hole.gdshader

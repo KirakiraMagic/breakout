@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlmy1eesvhyeo"]
+
+[ext_resource type="Texture2D" uid="uid://b8xw1fy8wehis" path="res://eyetex.png" id="1_1jghv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_unne6"]
+size = Vector2(66, 24)
+
+[node name="Brick" type="CharacterBody2D" groups=["bricks", "invisible_brick"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_unne6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0413794, 0.0413793)
+texture = ExtResource("1_1jghv")

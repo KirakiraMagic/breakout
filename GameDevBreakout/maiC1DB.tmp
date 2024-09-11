@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dg3qej6vb1pmq"]
+
+[ext_resource type="Script" path="res://src/ball.gd" id="1_ku35s"]
+[ext_resource type="Texture2D" uid="uid://d11kft3g5o8vj" path="res://icon.svg" id="2_kf6qr"]
+[ext_resource type="Script" path="res://paddle.gd" id="3_f3iq4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7a5gh"]
+size = Vector2(24, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1x73q"]
+size = Vector2(66, 24)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2h3l5"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+script = ExtResource("1_ku35s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_7a5gh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_kf6qr")
+
+[node name="Paddle" type="CharacterBody2D" parent="."]
+position = Vector2(500, 500)
+script = ExtResource("3_f3iq4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
+shape = SubResource("RectangleShape2D_1x73q")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+scale = Vector2(66, 24)
+texture = SubResource("CanvasTexture_2h3l5")

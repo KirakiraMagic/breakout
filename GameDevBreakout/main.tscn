@@ -1,0 +1,428 @@
+[gd_scene load_steps=30 format=3 uid="uid://dg3qej6vb1pmq"]
+
+[ext_resource type="Script" path="res://src/ball.gd" id="1_ku35s"]
+[ext_resource type="Texture2D" uid="uid://d11kft3g5o8vj" path="res://icon.svg" id="2_kf6qr"]
+[ext_resource type="Shader" path="res://fireball.gdshader" id="2_ur24i"]
+[ext_resource type="Script" path="res://src/paddle.gd" id="3_f3iq4"]
+[ext_resource type="Script" path="res://src/lives.gd" id="4_yrecf"]
+[ext_resource type="Shader" path="res://qishader.gdshader" id="5_0wvyp"]
+[ext_resource type="PackedScene" uid="uid://prpfx2fbylsc" path="res://brick.tscn" id="5_7kvcy"]
+[ext_resource type="Script" path="res://src/StartText.gd" id="6_wefv6"]
+[ext_resource type="Shader" path="res://ripple.gdshader" id="10_4a1xi"]
+[ext_resource type="PackedScene" uid="uid://dlmy1eesvhyeo" path="res://invis_brick.tscn" id="11_4dbun"]
+[ext_resource type="Shader" path="res://background.gdshader" id="11_ko4l2"]
+[ext_resource type="PackedScene" uid="uid://bpogqmwaouvww" path="res://hyper_brick.tscn" id="12_qljmp"]
+[ext_resource type="Shader" path="res://black_hole.gdshader" id="13_0ctnf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lb3it"]
+shader = ExtResource("11_ko4l2")
+shader_parameter/anim_speed = 0.0530002
+shader_parameter/star_brightness = 0.02
+shader_parameter/dust = 0.125
+shader_parameter/dist_fade = 0.013
+shader_parameter/pixelation = 1000.0
+shader_parameter/quantization_levels = 256
+shader_parameter/dust_color = Color(0.0371879, 0.425413, 0.595367, 1)
+shader_parameter/saturation = 1.0
+shader_parameter/layers = 7.0
+shader_parameter/iterations = 10
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7a5gh"]
+size = Vector2(50, 50)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0ioe"]
+shader = ExtResource("2_ur24i")
+shader_parameter/fire_color = Color(0.907929, 0.140421, 1, 1)
+shader_parameter/fire_power_factor = 2.0
+shader_parameter/fire_intensity = 3.0
+shader_parameter/fire_start = 1.0
+shader_parameter/ball_size = 0.9
+shader_parameter/roughness = 0.15
+shader_parameter/detail = 6
+shader_parameter/scale = 4.0
+shader_parameter/lacunarity = 2.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dwuo4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_08eib"]
+shader = ExtResource("10_4a1xi")
+shader_parameter/frequency = 5.73
+shader_parameter/amplitude = 3.0
+shader_parameter/ripple_rate = 5.0
+shader_parameter/wave_amplitude = 0.1
+shader_parameter/wave_frequency = 4.0
+shader_parameter/noise = SubResource("NoiseTexture2D_dwuo4")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_flcny"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1x73q"]
+size = Vector2(100, 3)
+
+[sub_resource type="Gradient" id="Gradient_31avb"]
+offsets = PackedFloat32Array(0.254098, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_640ky"]
+gradient = SubResource("Gradient_31avb")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qfq7v"]
+shader = ExtResource("5_0wvyp")
+shader_parameter/color_top = Color(0.752796, 0.356018, 0.7326, 1)
+shader_parameter/color_bottom = Color(0.807371, 0.67646, 0.331829, 1)
+shader_parameter/position = 0.219
+shader_parameter/blend = 0.934
+shader_parameter/angle = 199.213
+shader_parameter/line_height_min = 0.01
+shader_parameter/line_height_max = 0.1
+shader_parameter/num_lines = 5
+shader_parameter/speed = 0.37
+shader_parameter/vertical_origin = 0.46
+shader_parameter/texture_albedo = SubResource("GradientTexture2D_640ky")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2h3l5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_glg1v"]
+size = Vector2(20, 612.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k42q5"]
+size = Vector2(1190, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s5n7m"]
+size = Vector2(1415, 58)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kmdki"]
+shader = ExtResource("13_0ctnf")
+shader_parameter/brightness = 1.5
+shader_parameter/ray_brightness = 10.0
+shader_parameter/gamma = 8.0
+shader_parameter/spot_brightness = 15.0
+shader_parameter/ray_density = 3.5
+shader_parameter/curvature = 15.0
+shader_parameter/rgb = Vector3(4, 1, 0.1)
+shader_parameter/sin_freq = 13.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f4mck"]
+radius = 29.0689
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="." groups=["hurt_star"]]
+material = SubResource("ShaderMaterial_lb3it")
+offset_left = -222.0
+offset_top = -151.0
+offset_right = 1427.0
+offset_bottom = 837.0
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(555, 210)
+script = ExtResource("1_ku35s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_7a5gh")
+
+[node name="BallSprite" type="Sprite2D" parent="Ball"]
+material = SubResource("ShaderMaterial_o0ioe")
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("2_kf6qr")
+offset = Vector2(-46.685, 0)
+
+[node name="Ripple" type="Sprite2D" parent="Ball"]
+visible = false
+material = SubResource("ShaderMaterial_08eib")
+scale = Vector2(150, 150)
+texture = SubResource("CanvasTexture_flcny")
+
+[node name="InvisTimer" type="Timer" parent="Ball"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Paddle" type="CharacterBody2D" parent="." groups=["paddle"]]
+position = Vector2(564, 570)
+script = ExtResource("3_f3iq4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_1x73q")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+material = SubResource("ShaderMaterial_qfq7v")
+position = Vector2(0, 24.409)
+scale = Vector2(100, 85.182)
+texture = SubResource("CanvasTexture_2h3l5")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-8, 303.75)
+shape = SubResource("RectangleShape2D_glg1v")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1159, 303)
+shape = SubResource("RectangleShape2D_glg1v")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(572, -9)
+shape = SubResource("RectangleShape2D_k42q5")
+
+[node name="OutOfBounds" type="Area2D" parent="."]
+position = Vector2(65, 36)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(513.5, 609)
+shape = SubResource("RectangleShape2D_s5n7m")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 514.0
+offset_right = 137.0
+offset_bottom = 601.0
+theme_override_font_sizes/font_size = 30
+text = "Lives: 3
+Score: 0"
+script = ExtResource("4_yrecf")
+
+[node name="Brick2" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(79, 21)
+
+[node name="Brick3" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(157, 21)
+
+[node name="Brick4" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1011, 294)
+
+[node name="Brick5" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(312, 21)
+
+[node name="Brick6" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(387, 21)
+
+[node name="Brick7" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(465, 21)
+
+[node name="Brick8" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(542, 21)
+
+[node name="Brick9" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(620, 21)
+
+[node name="Brick10" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(702, 21)
+
+[node name="Brick11" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(178, 286)
+
+[node name="Brick12" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(857, 21)
+
+[node name="Brick13" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(935, 21)
+
+[node name="Brick14" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1010, 21)
+
+[node name="Brick15" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(748, 239)
+
+[node name="Brick16" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(60, 57)
+
+[node name="Brick17" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(138, 57)
+
+[node name="Brick18" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(215, 57)
+
+[node name="Brick19" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(293, 57)
+
+[node name="Brick20" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(368, 57)
+
+[node name="Brick21" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(446, 57)
+
+[node name="Brick22" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1086, 293)
+
+[node name="Brick23" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(601, 57)
+
+[node name="Brick24" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(683, 57)
+
+[node name="Brick25" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(761, 57)
+
+[node name="Brick26" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(838, 57)
+
+[node name="Brick27" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(829, 240)
+
+[node name="Brick28" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(991, 57)
+
+[node name="Brick29" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1069, 57)
+
+[node name="Brick30" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(79, 91)
+
+[node name="Brick31" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(157, 91)
+
+[node name="Brick32" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(208, 253)
+
+[node name="Brick33" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(312, 91)
+
+[node name="Brick34" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(387, 91)
+
+[node name="Brick35" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(465, 91)
+
+[node name="Brick36" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(542, 91)
+
+[node name="Brick37" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(620, 91)
+
+[node name="Brick38" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(702, 91)
+
+[node name="Brick39" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(780, 91)
+
+[node name="Brick40" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(857, 91)
+
+[node name="Brick41" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(935, 91)
+
+[node name="Brick42" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1010, 91)
+
+[node name="Brick43" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1088, 91)
+
+[node name="Brick44" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(60, 127)
+
+[node name="Brick45" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(138, 127)
+
+[node name="Brick46" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(215, 127)
+
+[node name="Brick47" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(293, 127)
+
+[node name="Brick48" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(255, 287)
+
+[node name="Brick49" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(446, 127)
+
+[node name="Brick50" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(523, 127)
+
+[node name="Brick51" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(601, 127)
+
+[node name="Brick52" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(683, 127)
+
+[node name="Brick53" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(761, 127)
+
+[node name="Brick54" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(780, 207)
+
+[node name="Brick55" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(916, 127)
+
+[node name="Brick56" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(991, 127)
+
+[node name="Brick57" parent="." instance=ExtResource("5_7kvcy")]
+position = Vector2(1069, 127)
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 435.0
+offset_top = 301.0
+offset_right = 697.0
+offset_bottom = 349.0
+theme_override_font_sizes/normal_font_size = 25
+text = "Press SPACE to Start"
+script = ExtResource("6_wefv6")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 321)
+
+[node name="Brick" parent="." instance=ExtResource("11_4dbun")]
+position = Vector2(528, 57)
+
+[node name="Brick58" parent="." instance=ExtResource("11_4dbun")]
+position = Vector2(234, 94)
+
+[node name="Brick59" parent="." instance=ExtResource("12_qljmp")]
+position = Vector2(368, 133)
+
+[node name="Brick60" parent="." instance=ExtResource("12_qljmp")]
+position = Vector2(917, 57)
+
+[node name="Brick61" parent="." instance=ExtResource("11_4dbun")]
+position = Vector2(842, 132)
+
+[node name="Brick62" parent="." instance=ExtResource("12_qljmp")]
+position = Vector2(784, 21)
+
+[node name="Brick63" parent="." instance=ExtResource("12_qljmp")]
+position = Vector2(235, 21)
+
+[node name="HurtStar" type="StaticBody2D" parent="."]
+position = Vector2(58, 390)
+
+[node name="Sprite2D" type="ColorRect" parent="HurtStar"]
+material = SubResource("ShaderMaterial_kmdki")
+offset_left = -27.0
+offset_top = -28.0
+offset_right = 31.0
+offset_bottom = 33.0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtStar"]
+shape = SubResource("CircleShape2D_f4mck")
+metadata/_edit_lock_ = true
+
+[node name="HurtStar2" type="StaticBody2D" parent="." groups=["hurt_star"]]
+position = Vector2(1094, 409)
+
+[node name="Sprite2D" type="ColorRect" parent="HurtStar2"]
+material = SubResource("ShaderMaterial_kmdki")
+offset_left = -27.0
+offset_top = -28.0
+offset_right = 31.0
+offset_bottom = 33.0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtStar2"]
+shape = SubResource("CircleShape2D_f4mck")
+metadata/_edit_lock_ = true
+
+[node name="Brick64" parent="." instance=ExtResource("11_4dbun")]
+position = Vector2(787, 270)
+
+[node name="Brick65" parent="." instance=ExtResource("12_qljmp")]
+position = Vector2(292, 250)
+
+[connection signal="timeout" from="Ball/InvisTimer" to="Ball" method="_on_invis_timer_timeout"]
+[connection signal="body_entered" from="OutOfBounds" to="Label" method="_on_out_of_bounds_body_entered"]
+[connection signal="timeout" from="Timer" to="Ball" method="_on_timer_timeout"]
