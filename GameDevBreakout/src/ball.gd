@@ -26,7 +26,12 @@ func _on_game_start():
 
 func _physics_process(delta) -> void:
 	if not Global.game_started:
+		ball_sprite.visible = false
+		ripple.visible = false
+		visible = false
 		return
+	else:
+		visible = true
 	
 	ball_sprite.look_at(forward+ball_sprite.global_position)
 	var collision: KinematicCollision2D = move_and_collide(forward * speed * delta)

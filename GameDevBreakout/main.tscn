@@ -387,7 +387,7 @@ position = Vector2(784, 21)
 [node name="Brick63" parent="." instance=ExtResource("12_qljmp")]
 position = Vector2(235, 21)
 
-[node name="HurtStar" type="StaticBody2D" parent="."]
+[node name="HurtStar" type="StaticBody2D" parent="." groups=["hurt_star"]]
 position = Vector2(58, 390)
 
 [node name="Sprite2D" type="ColorRect" parent="HurtStar"]

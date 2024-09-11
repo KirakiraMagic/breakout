@@ -15,6 +15,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if lives <= 0:
+		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("ui_accept"):
 		game_started = true
 		game_start.emit()
